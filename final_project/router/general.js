@@ -89,18 +89,18 @@ public_users.get('/isbnpromise/:isbn',function (req, res) {
                 }
             }
             if (filtered_books.length) {
-               res.send(JSON.stringify(filtered_books,null,4));
+               resolve(filtered_books);
             }
             else {
-                res.send('Sorry, no books with that ISBN');
+                reject({status: 400,message:"No books with this ISBN"});
             }
     });
     promise_books.
-    then(function () {
-        console.log('Promise completed successfully');
+    then(function (result) {
+        res.send(JSON.stringify(result,null,4));
     }).
     catch(function (error) {
-        console.log('Promise error has occurred');
+        res.send(error.message);
     });
 
  });
@@ -131,9 +131,7 @@ public_users.get('/authorpromise/:author',function (req, res) {
     let promise_books = new Promise((resolve, reject) => {
     const author = req.params.author;
     let filtered_books = []; 
-    // console.log(Object.keys(books)); 1 2 3 
-    // Get value for each key, and get new value for isbn key?
-
+   
     for (var key in books) {
         var obj = books[key];
         if(obj["author"] == author) {
@@ -141,18 +139,17 @@ public_users.get('/authorpromise/:author',function (req, res) {
         }
      }
      if (filtered_books.length) {
-        res.send(JSON.stringify(filtered_books,null,4));
+        resolve(filtered_books);
      }
      else {
-         res.send('Sorry, no books with that author');
+        reject({status: 400,message:"No books with this author"});
      }
     });
     promise_books.
-    then(function () {
-        console.log('Promise completed successfully');
-    }).
+    then(function (result) {
+        res.send(JSON.stringify(result,null,4));    }).
     catch(function (error) {
-        console.log('Promise error has occurred');
+        res.send(error.message);
     });
 });
 // Get all books based on title
@@ -182,9 +179,7 @@ public_users.get('/titlepromise/:title',function (req, res) {
     let promise_books = new Promise((resolve, reject) => {
     const title = req.params.title;
     let filtered_books = []; 
-    // console.log(Object.keys(books)); 1 2 3 
-    // Get value for each key, and get new value for isbn key?
-
+   
     for (var key in books) {
         var obj = books[key];
         if(obj["title"] == title) {
@@ -192,18 +187,18 @@ public_users.get('/titlepromise/:title',function (req, res) {
         }
      }
      if (filtered_books.length) {
-        res.send(JSON.stringify(filtered_books,null,4));
+        resolve(filtered_books);
      }
      else {
-         res.send('Sorry, no books with that title');
+         reject({message: "Sorry, no books with that title"})
      }
     });
     promise_books.
-    then(function () {
-        console.log('Promise completed successfully');
+    then(function (result) {
+        res.send(JSON.stringify(result,null,4))
     }).
     catch(function (error) {
-        console.log('Promise error has occurred');
+        res.send(error.message);
     }); 
 });
 
