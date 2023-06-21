@@ -47,7 +47,13 @@ public_users.get('/allbooks',function (req, res) {
     const promise_books = new Promise((resolve, reject) => {
         resolve(res.send(JSON.stringify({ books }, null, 4)));
     });
-    promise_books.then(() => console.log("Promise resolved"));
+    promise_books.
+    then(function () {
+        console.log('Promise completed successfully');
+    }).
+    catch(function (error) {
+        console.log('Promise error has occurred');
+    });
 });
 
 
@@ -74,21 +80,27 @@ public_users.get('/isbn/:isbn',function (req, res) {
  // Get book details based on ISBN using promise
 public_users.get('/isbnpromise/:isbn',function (req, res) {
     let promise_books = new Promise((resolve, reject) => {
-    const isbn = req.params.isbn;
-    let filtered_books = []; 
-        
-    for (var key in books) {
-        var obj = books[key];
-        if(obj["isbn"] == isbn) {
-          filtered_books.push(obj);
-        }
-     }
-     if (filtered_books.length) {
-        res.send(JSON.stringify(filtered_books,null,4));
-     }
-     else {
-         res.send('Sorry, no books with that ISBN');
-     }
+        const isbn = req.params.isbn;
+        let filtered_books = []; 
+            for (var key in books) {
+                var obj = books[key];
+                if(obj["isbn"] == isbn) {
+                    filtered_books.push(obj);
+                }
+            }
+            if (filtered_books.length) {
+               res.send(JSON.stringify(filtered_books,null,4));
+            }
+            else {
+                res.send('Sorry, no books with that ISBN');
+            }
+    });
+    promise_books.
+    then(function () {
+        console.log('Promise completed successfully');
+    }).
+    catch(function (error) {
+        console.log('Promise error has occurred');
     });
 
  });
@@ -135,7 +147,13 @@ public_users.get('/authorpromise/:author',function (req, res) {
          res.send('Sorry, no books with that author');
      }
     });
-    promise_books.then(() => console.log("Promise resolved"));
+    promise_books.
+    then(function () {
+        console.log('Promise completed successfully');
+    }).
+    catch(function (error) {
+        console.log('Promise error has occurred');
+    });
 });
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
@@ -179,6 +197,13 @@ public_users.get('/titlepromise/:title',function (req, res) {
      else {
          res.send('Sorry, no books with that title');
      }
+    });
+    promise_books.
+    then(function () {
+        console.log('Promise completed successfully');
+    }).
+    catch(function (error) {
+        console.log('Promise error has occurred');
     }); 
 });
 
