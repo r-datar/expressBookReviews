@@ -76,6 +76,27 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   
 });
 
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    //Check username of logged in user
+    current = req.session.authorization['username'];
+
+    isbn = req.params.isbn;
+    
+    // find all reviews of book, if poster is unique, add else update
+    for (var key in books) {
+        var obj = books[key];
+        if(obj["isbn"] == isbn) {
+         delete obj['reviews'][current];
+         res.send(JSON.stringify(obj,null,4));          
+        }
+     }
+
+    return;
+  
+});
+
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
